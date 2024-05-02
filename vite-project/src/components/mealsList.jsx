@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import ListItemWithBorder from "./listItemWithBorder.jsx";
 import apiurl from "../apiurl.js";
+import Meal from "./meal.jsx";
+
 function MealsList() {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,9 +25,9 @@ function MealsList() {
           <ul style={{ paddingLeft: "30px" }}>
             {meals.map((meal) => (
               <ListItemWithBorder key={meal.id}>
-                <strong> {meal.title} </strong> : <i> {meal.description} </i> ,
-                <strong><i> price: </i></strong> {meal.price} kr.
-              </ListItemWithBorder> 
+              <Meal meal={meal}/>
+              </ListItemWithBorder>
+               
               
             ))}
           </ul>

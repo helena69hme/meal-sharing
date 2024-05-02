@@ -1,20 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ListItemWithBorder from "./listItemWithBorder";
+
 function Meal({ meal }) {
-  const specialMeals = ["Nugget", "Omlet"];
+  const specialMeals = ["Ghorme sabzi", "Sushi"];
   return (
     <ListItemWithBorder>
       <div className="meal-card">
         <h3>
           {meal.title}{" "}
-          {specialMeals.includes(meal.title) && (
+          
             <img
               className="offer-image"
-              src="src/assets/images/special-offer.png"
-              alt="Special Offer"
+              src="./"
+              alt="VegetarianStir-Fry"
             />
-          )}
+         
         </h3>
         <p className="description">{meal.description}</p>
         <p>
