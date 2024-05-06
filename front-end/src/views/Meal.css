@@ -1,0 +1,37 @@
+.meal-data__title {
+    font-size: 62px;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.meal-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center
+}
+
+.meal-data__reservation-info {
+    display: flex;
+    flex-direction: column;
+    font-family: fantasy;
+    width: 100%;
+    font-size: 15px;
+    padding: 24px;
+}
+
+.meal-data__loader {
+    min-height: screen;
+    display: flex;
+    width: 100%;
+}
+
+.meal-data__reservation-button {
+    width: 100%;
+    padding: 24px;
+    margin: 12px;
+    border-radius: 32px;
+    font-size: 32px;
+    cursor: pointer;
+}
