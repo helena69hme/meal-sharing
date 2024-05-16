@@ -2,6 +2,7 @@ import './Meal.css'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { baseUrl } from '../apiurl'
+import { Link } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners'
 
 export function Meal() {
@@ -59,6 +60,7 @@ export function Meal() {
             alt={mealData.title}
           />
         </div>
+        <Link to={`/meals/${mealId}/reservation`}>
         <button
           className="meal-data__reservation-button"
           disabled={Number(mealData.availableMeals) <= 0}
@@ -67,6 +69,7 @@ export function Meal() {
             ? 'Go to reservation page'
             : 'reservation is full'}
         </button>
+        </Link>
         <div className="meal-data__reservation-info">
           <span>Location: {mealData.location}</span>
           <span>Time: {mealData.mealTime}</span>
