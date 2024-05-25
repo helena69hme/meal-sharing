@@ -10,6 +10,7 @@ export function Meal() {
   const { mealId } = useParams()
   const [mealData, setMealData] = useState(undefined)
   const [reviews, setReviews] = useState(undefined)
+  const [showModal, setShowModal] = useState(false)
 
   const fetchMealDetails = async () => {
     if (mealData) return
@@ -22,8 +23,6 @@ export function Meal() {
         `${baseUrl()}meals/${mealId}/reservations`
       )
       const reservation = await reservationResponse.json()
-
-      await fetchReviewDetails()
 
       const date = new Date(data.meal_time)
 
@@ -47,9 +46,7 @@ export function Meal() {
       const response = await fetch(`${baseUrl()}reviews/${mealId}`)
       const { data } = await response.json()
 
-      console.log({ data })
       setReviews(data)
-      console.log({ reviews })
     } catch (error) {
       console.error('Error fetching reviews:', error)
     }
@@ -57,13 +54,15 @@ export function Meal() {
 
   useEffect(() => {
     fetchMealDetails()
+    fetchReviewDetails()
   }, [])
 
-  function handleRating(rate) {
-    console.log({ rate })
+  // Toggle modal visibility when the user clicks on the review div
+  function toggleModal() {
+    setShowModal(!showModal)
   }
 
-  if (mealData && reviews) {
+  if (mealData) {
     return (
       <div className="meal-data">
         <h3 className="meal-data__title">{mealData.title}</h3>
@@ -91,7 +90,7 @@ export function Meal() {
         </Link>
         <div
           className="meal-data__review"
-          onClick={handleRating}
+          onClick={toggleModal} // Change to toggleModal
         >
           <Rating
             initialValue={mealData.stars}
@@ -105,28 +104,34 @@ export function Meal() {
           <span>Available no to reserve: {mealData.availableMeals}</span>
         </div>
 
-        {/* IT COULD BE ANOTHER COMPONENT */}
-        <div className="meal-data__modal-bg">
-          <div className="meal-data__modal-body">
-            <h1>Ratings</h1>
-            <div className="meal-data__modal-body-2">
-              {reviews?.map((review, index) => (
-                <div
-                  className="meal-data__modal-body-review"
-                  key={index}
-                >
-                  <Rating
-                    emptyColor="gray"
-                    fillColor="green"
-                    size={20}
-                    initialValue={review.stars}
-                  />
-                  <span>{review.description}</span>
-                </div>
-              ))}
+        {/* Render modal based on showModal state */}
+        {showModal && (
+          <>
+            <div
+              className="meal-data__modal-bg"
+              onClick={toggleModal}
+            ></div>
+            <div className="meal-data__modal-body">
+              <h1>Ratings</h1>
+              <div className="meal-data__modal-body-2">
+                {reviews?.map((review, index) => (
+                  <div
+                    className="meal-data__modal-body-review"
+                    key={index}
+                  >
+                    <Rating
+                      emptyColor="gray"
+                      fillColor="green"
+                      size={20}
+                      initialValue={review.stars}
+                    />
+                    <span>{review.description}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     )
   }
