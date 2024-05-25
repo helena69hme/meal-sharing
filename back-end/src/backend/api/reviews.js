@@ -20,20 +20,14 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 //Returns a review by id. (GET http://localhost:5000/api/reviews/:id)
 router.get("/:id", async (req, res) => {
   const response = {};
   try {
     const id = +req.params.id;
-    const reviewById = await knex
-      .select(
-        "review.id AS Review ID",
-        "meal.title AS Meal title",
-        "review.description"
-      )
-      .from("meal")
-      .join("review", "meal.id", "=", "review.meal_id")
-      .where("review.id", "=", id);
+    const reviewById = await knex("review").where('meal_id', id)
+
     if (reviewById.length > 0) {
       response.data = reviewById;
       response.status = 200;

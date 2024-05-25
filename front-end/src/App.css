@@ -45,7 +45,6 @@ body{
 }
 
 .meal-card__image-wrapper {
-width: 400px;
 padding: 32px;
 user-select: none;
 }

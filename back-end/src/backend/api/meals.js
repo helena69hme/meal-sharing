@@ -40,9 +40,13 @@ router.get('/:id/reservations', async (req, res) => {
       .where('id', id)
       .first()
 
+    const stars = await knex('review')
+    .where('meal_id', id)
+    .avg('stars as sumRating')
+
     const availableMeals =
       meals.max_reservations - (totalGuests.totalGuests || 0)
-      res.status(200).json({ availableMeals, maxReserve: meals.max_reservations })
+      res.status(200).json({ stars: stars[0].sumRating, availableMeals, maxReserve: meals.max_reservations })
       
   } catch (error) {
     console.error('Internal Server Error', error)

@@ -2,41 +2,56 @@ import './Meal.css'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { baseUrl } from '../apiurl'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
+import { Rating } from 'react-simple-star-rating'
 
 export function Meal() {
   const { mealId } = useParams()
   const [mealData, setMealData] = useState(undefined)
+  const [reviews, setReviews] = useState(undefined)
 
   const fetchMealDetails = async () => {
     if (mealData) return
 
     try {
       const response = await fetch(`${baseUrl()}meals/${mealId}`)
-      if (response.ok) {
-        const data = await response.json()
+      const data = await response.json()
 
-        const reservationResponse = await fetch(
-          `${baseUrl()}meals/${mealId}/reservations`
-        )
-        const reservation = await reservationResponse.json()
+      const reservationResponse = await fetch(
+        `${baseUrl()}meals/${mealId}/reservations`
+      )
+      const reservation = await reservationResponse.json()
 
-        const date = new Date(data.meal_time)
-        setMealData({
-          ...data,
-          mealTime: `${date.getDate()}-${
-            date.getMonth() + 1
-          }-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`,
-          availableMeals: reservation.availableMeals,
-          maxReservation: reservation.maxReserve,
-        })
-      } else {
-        throw new Error('Failed to fetch meal details')
-      }
+      await fetchReviewDetails()
+
+      const date = new Date(data.meal_time)
+
+      setMealData({
+        ...data,
+        mealTime: `${date.getDate()}-${
+          date.getMonth() + 1
+        }-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`,
+        ...reservation,
+      })
+      console.log({ mealData })
     } catch (error) {
       console.error('Error fetching meal details:', error)
-      console.error('The meal does not exist')
+    }
+  }
+
+  const fetchReviewDetails = async () => {
+    if (reviews) return
+
+    try {
+      const response = await fetch(`${baseUrl()}reviews/${mealId}`)
+      const { data } = await response.json()
+
+      console.log({ data })
+      setReviews(data)
+      console.log({ reviews })
+    } catch (error) {
+      console.error('Error fetching reviews:', error)
     }
   }
 
@@ -44,7 +59,11 @@ export function Meal() {
     fetchMealDetails()
   }, [])
 
-  if (mealData) {
+  function handleRating(rate) {
+    console.log({ rate })
+  }
+
+  if (mealData && reviews) {
     return (
       <div className="meal-data">
         <h3 className="meal-data__title">{mealData.title}</h3>
@@ -61,20 +80,52 @@ export function Meal() {
           />
         </div>
         <Link to={`/meals/${mealId}/reservation`}>
-        <button
-          className="meal-data__reservation-button"
-          disabled={Number(mealData.availableMeals) <= 0}
-        >
-          {Number(mealData.availableMeals) > 0
-            ? 'Go to reservation page'
-            : 'reservation is full'}
-        </button>
+          <button
+            className="meal-data__reservation-button"
+            disabled={Number(mealData.availableMeals) <= 0}
+          >
+            {Number(mealData.availableMeals) > 0
+              ? 'Go to reservation page'
+              : 'reservation is full'}
+          </button>
         </Link>
+        <div
+          className="meal-data__review"
+          onClick={handleRating}
+        >
+          <Rating
+            initialValue={mealData.stars}
+            readonly={true}
+          />
+        </div>
         <div className="meal-data__reservation-info">
           <span>Location: {mealData.location}</span>
           <span>Time: {mealData.mealTime}</span>
-          <span>Max reservation no: {mealData.maxReservation}</span>
+          <span>Max reservation no: {mealData.maxReserve}</span>
           <span>Available no to reserve: {mealData.availableMeals}</span>
+        </div>
+
+        {/* IT COULD BE ANOTHER COMPONENT */}
+        <div className="meal-data__modal-bg">
+          <div className="meal-data__modal-body">
+            <h1>Ratings</h1>
+            <div className="meal-data__modal-body-2">
+              {reviews?.map((review, index) => (
+                <div
+                  className="meal-data__modal-body-review"
+                  key={index}
+                >
+                  <Rating
+                    emptyColor="gray"
+                    fillColor="green"
+                    size={20}
+                    initialValue={review.stars}
+                  />
+                  <span>{review.description}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     )

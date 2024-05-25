@@ -35,3 +35,31 @@
     font-size: 32px;
     cursor: pointer;
 }
+
+.meal-data__review {
+    cursor: pointer;
+}
+
+.meal-data__modal-bg {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.meal-data__modal-body {
+    position: fixed;
+    inset: 25%;
+    width: 50%;
+    height: 50%;
+    background-color: rgb(212, 212, 212);
+    padding: 25px;
+}
+
+.meal-data__modal-body-2 {
+display: flex;
+flex-direction: column;
+gap: 25px;
+}
+.meal-data__modal-body-review {
+display: flex;
+flex-direction: column;
+}

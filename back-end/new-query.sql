@@ -122,4 +122,4 @@ ALTER TABLE `reservation`
 
 ALTER TABLE `review`
   ADD CONSTRAINT `review_fk_meal_id` FOREIGN KEY (`meal_id`) REFERENCES `meal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
+  

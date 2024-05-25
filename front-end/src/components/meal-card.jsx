@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { faker } from '@faker-js/faker'
 
 export function MealCard({ meal }) {
   return (
@@ -13,7 +14,11 @@ export function MealCard({ meal }) {
       <div className="meal-card__image-wrapper">
         <img
           className="meal-card__image"
-          src={meal.image_url}
+          src={faker.image.urlLoremFlickr({
+            width:400,
+            height:400,
+            category: 'food',
+          })}
           alt={meal.title}
         />
       </div>
