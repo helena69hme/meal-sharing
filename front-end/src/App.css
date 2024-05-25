@@ -1,0 +1,91 @@
+body{
+  background-color: rgb(51, 60, 9);
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.meal-body {
+  background-color: rgb(226, 223, 167);
+  padding: 50px;
+  width: 80%;
+}
+
+.meal-header__title {
+  color:rgb(139, 1, 1);
+  padding-left: 32px;
+  font-family: "Briem Hand", cursive;
+  font-size: 32px;
+}
+
+.meal-header__logo {
+  color:rgb(139, 1, 1); 
+  padding-left: 32px;
+}
+
+.meal-header{
+  fill: #7a4633;
+  border: dashed #7a4633;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: aliceblue;
+}
+
+.meals-list__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  padding: 24px;
+}
+
+.meal-card__image-wrapper {
+padding: 32px;
+user-select: none;
+}
+
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background-color: white;
+  border-radius: 32px;
+  box-shadow: 4px 5px 14px #55382e;
+  user-select: none;
+}
+
+.meal-card__button {
+  padding: 16px;
+  border: solid 5px #333c09;
+  border-radius: 32px;
+  font-size: 24px;
+  font-family: sans-serif;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #333c09;
+}
+
+.meal-header__left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.meal-card__image {
+  width: 100%;
+}
+
+.meal-header__right-item {
+  font-size: 32px;
+  padding: 29px;
+  text-decoration: none;
+  font-family: monospace;
+  color: darkblue;
+  font-weight: bold;
+}
